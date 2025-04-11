@@ -1,0 +1,10 @@
+{
+    "name": "cu-boulder/ckeditor5_bootstrap_accordion",
+    "description": "Insert and edit a Bootstrap 5 accordion in CKEditor 5.",
+    "license": "GPL-2.0-or-later",
+    "type": "drupal-module",
+    "minimum-stability": "dev",
+    "require": {
+        "drupal/core": "^9.5 || ^10 || ^11"
+    }
+}
