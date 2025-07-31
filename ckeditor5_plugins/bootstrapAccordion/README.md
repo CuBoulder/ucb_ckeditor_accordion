@@ -39,7 +39,7 @@
   data-accordion-id="...">
   <div class="accordion-item">
     <div class="accordion-header">
-      <a class="accordion-button collapsed?" href="#">...</a>
+      <a class="accordion-button collapsed?" href="#" tabindex="0">...</a>
     </div>
     <div class="accordion-collapse collapse show?">
       <div class="accordion-body">
@@ -49,7 +49,7 @@
   </div>
   <div class="accordion-item">
     <div class="accordion-header">
-      <a class="accordion-button collapsed?" href="#">...</a>
+      <a class="accordion-button collapsed?" href="#" tabindex="0">...</a>
     </div>
     <div class="accordion-collapse collapse show?">
       <div class="accordion-body">
