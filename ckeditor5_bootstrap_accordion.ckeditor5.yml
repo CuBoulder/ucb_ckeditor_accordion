@@ -24,6 +24,6 @@ ckeditor5_bootstrap_accordion_bootstrapAccordion:
       - <div>
       - <div data-accordion-id class="accordion accordion-item accordion-header accordion-body accordion-flush accordion-items-stay-open collapse show">
       - <a>
-      - <a href="#" class="accordion-button collapsed">
+      - <a href="#" class="accordion-button collapsed" tabindex="0">
     conditions:
       filter: filter_bootstrap_accordion

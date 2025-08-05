@@ -332,7 +332,8 @@ export default class BootstrapAccordionEditing extends Plugin implements PluginI
       view: (_modelElement, { writer }) => {
         const element = writer.createEditableElement('a', {
           class: 'ckeditor5-bootstrap-accordion-button',
-          href: '#'
+          href: '#',
+          tabindex: '0'
         });
         element.placeholder = t('Accordion item');
         shimmedEnablePlaceholder({
@@ -350,7 +351,8 @@ export default class BootstrapAccordionEditing extends Plugin implements PluginI
         name: 'a',
         classes: 'accordion-button',
         attributes: {
-          href: '#'
+          href: '#',
+          tabindex: '0'
         }
       }
     });
