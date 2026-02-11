@@ -1,4 +1,4 @@
-import type { DocumentSelection, Element, Model } from 'ckeditor5/src/engine';
+import type { Model, ModelDocumentSelection, ModelElement } from 'ckeditor5/src/engine';
 import type { AccordionModelAttribute } from '../bootstrapaccordionconfig';
 import { Command } from 'ckeditor5/src/core';
 import { uid } from 'ckeditor5/src/utils';
@@ -61,9 +61,9 @@ export default class InsertBootstrapAccordionCommand extends Command {
  *   The parent element to evaluate whether an accordion can be inserted as a
  *   child.
  */
-function getParentElement(selection: DocumentSelection, model: Model): Element {
+function getParentElement(selection: ModelDocumentSelection, model: Model): ModelElement {
   const parent = findOptimalInsertionRange(selection, model).start.parent;
   if (parent.isEmpty && !parent.is('element', '$root'))
-    return parent.parent as Element;
-  return parent as Element;
+    return parent.parent as ModelElement;
+  return parent as ModelElement;
 }

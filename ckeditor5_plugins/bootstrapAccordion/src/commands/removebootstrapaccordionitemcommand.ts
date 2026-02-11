@@ -1,4 +1,4 @@
-import type { Element } from 'ckeditor5/src/engine';
+import type { ModelElement } from 'ckeditor5/src/engine';
 import { Command } from 'ckeditor5/src/core';
 import { getSelectedAccordionItemModelElement, setAccordionItemIsOpen } from '../bootstrapaccordionutils';
 
@@ -11,7 +11,7 @@ export default class RemoveBootstrapAccordionItemCommand extends Command {
   /**
    * The currently-selected accordion item.
    */
-  protected accordionItem?: Element | null;
+  protected accordionItem?: ModelElement | null;
 
   /**
    * @inheritdoc
@@ -32,12 +32,12 @@ export default class RemoveBootstrapAccordionItemCommand extends Command {
     const accordionItem = this.accordionItem!;
     model.change(writer => {
       if (commands.get('bootstrapAccordionFirstItemOpen')?.value) {
-        const accordion = accordionItem.parent as Element;
+        const accordion = accordionItem.parent as ModelElement;
         // The accordion item being removed is the first item, and the "open
         // first item" setting is on. Opens the item below it as it will now be
         // the first item.
         if (accordion.getChildIndex(accordionItem) === 0) {
-          setAccordionItemIsOpen(accordion.getChild(1) as Element, writer, true);
+          setAccordionItemIsOpen(accordion.getChild(1) as ModelElement, writer, true);
         }
       }
       writer.remove(accordionItem);

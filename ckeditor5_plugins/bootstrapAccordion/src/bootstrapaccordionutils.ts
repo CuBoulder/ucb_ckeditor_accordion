@@ -3,11 +3,11 @@
  */
 
 import type {
-  DocumentSelection,
-  Element,
+  ModelDocumentSelection,
+  ModelElement,
+  ModelWriter,
   ViewDocumentSelection,
   ViewElement,
-  Writer
 } from 'ckeditor5/src/engine';
 import type { AccordionCollapseModelAttribute, AccordionButtonModelAttribute } from './bootstrapaccordionconfig'
 import { version } from 'ckeditor5/src/utils';
@@ -51,7 +51,7 @@ export function getSelectedAccordionWidget(selection: ViewDocumentSelection): Vi
  * @returns
  *   The selected accordion item element, or null if there is none.
  */
-export function getSelectedAccordionItemModelElement(selection: DocumentSelection): Element | null | undefined {
+export function getSelectedAccordionItemModelElement(selection: ModelDocumentSelection): ModelElement | null | undefined {
   return selection.getFirstPosition()?.findAncestor('bootstrapAccordionItem');
 }
 
@@ -63,7 +63,7 @@ export function getSelectedAccordionItemModelElement(selection: DocumentSelectio
  * @returns
  *   The selected accordion element, or null if there is none.
  */
-export function getSelectedAccordionModelElement(selection: DocumentSelection): Element | null | undefined {
+export function getSelectedAccordionModelElement(selection: ModelDocumentSelection): ModelElement | null | undefined {
   return selection.getFirstPosition()?.findAncestor('bootstrapAccordion');
 }
 
@@ -75,7 +75,7 @@ export function getSelectedAccordionModelElement(selection: DocumentSelection): 
  * @returns
  *   The accordion item model element.
  */
-export function createAccordionItem(writer: Writer, isOpen: boolean = false) {
+export function createAccordionItem(writer: ModelWriter, isOpen: boolean = false) {
   const accordionItem = writer.createElement('bootstrapAccordionItem');
   const accordionHeader = writer.createElement('bootstrapAccordionHeader');
   const accordionButton = writer.createElement('bootstrapAccordionButton', {
@@ -106,7 +106,7 @@ export function createAccordionItem(writer: Writer, isOpen: boolean = false) {
  * @returns
  *   Whether or not the accordion item is open.
  */
-export function isAccordionItemOpen(accordionItem: Element) {
+export function isAccordionItemOpen(accordionItem: ModelElement) {
   let isOpen = false;
   [...accordionItem.getChildren()].forEach(node => {
     if (node.is('element', 'bootstrapAccordionCollapse')) {
@@ -129,7 +129,7 @@ export function isAccordionItemOpen(accordionItem: Element) {
  * @param isOpen
  *   Whether to open or collapse the accordion item.
  */
-export function setAccordionItemIsOpen(accordionItem: Element, writer: Writer, isOpen: boolean) {
+export function setAccordionItemIsOpen(accordionItem: ModelElement, writer: ModelWriter, isOpen: boolean) {
   [...accordionItem.getChildren()].forEach(node => {
     if (node.is('element', 'bootstrapAccordionHeader')) {
       [...node.getChildren()].forEach(node => {

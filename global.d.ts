@@ -12,6 +12,9 @@ declare module 'ckeditor5/src/core' {
 
 declare module 'ckeditor5/src/engine' {
   export * from '@ckeditor/ckeditor5-engine';
+  // See https://github.com/ckeditor/ckeditor5/issues/18583
+  export { enableViewPlaceholder as enablePlaceholder } from '@ckeditor/ckeditor5-engine';
+
 }
 
 declare module 'ckeditor5/src/ui' {
@@ -27,6 +30,16 @@ declare module 'ckeditor5/src/utils' {
 
 declare module 'ckeditor5/src/widget' {
   export * from '@ckeditor/ckeditor5-widget';
+
+  // In some CKEditor5 build setups, `findOptimalInsertionRange()` is typed to
+  // accept a `ModelElement` as its second argument. This plugin (and older
+  // CKEditor5 code) passes the full `Model`. Provide an overload so TypeScript
+  // accepts the working runtime usage.
+  import type { Model, ModelDocumentSelection, ModelElement } from 'ckeditor5/src/engine';
+  export function findOptimalInsertionRange(
+    selection: ModelDocumentSelection,
+    model: Model
+  ): { start: { parent: ModelElement } };
 }
 
 

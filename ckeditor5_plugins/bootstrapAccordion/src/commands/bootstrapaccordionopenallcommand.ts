@@ -1,6 +1,6 @@
 import { Command } from 'ckeditor5/src/core';
 import { getSelectedAccordionModelElement, setAccordionItemIsOpen } from '../bootstrapaccordionutils';
-import type { Element } from 'ckeditor5/src/engine';
+import type { ModelElement } from 'ckeditor5/src/engine';
 
 /**
  * Represents a command which is executed to open all items in an accordion.
@@ -10,7 +10,7 @@ export default class BootstrapAccordionOpenAllCommand extends Command {
   /**
    * The selected accordion widget.
    */
-  public accordionWidget?: Element | null;
+  public accordionWidget?: ModelElement | null;
 
   /**
    * @inheritdoc
@@ -29,7 +29,7 @@ export default class BootstrapAccordionOpenAllCommand extends Command {
   public override execute() {
     this.editor.model.change(writer =>
       [...this.accordionWidget!.getChildren()].forEach(accordionItem =>
-        setAccordionItemIsOpen(accordionItem as Element, writer, true)));
+        setAccordionItemIsOpen(accordionItem as ModelElement, writer, true)));
   }
 
 }
