@@ -1,6 +1,6 @@
 import { Command } from 'ckeditor5/src/core';
 import { getSelectedAccordionModelElement, setAccordionItemIsOpen } from '../bootstrapaccordionutils';
-import type { Element } from 'ckeditor5/src/engine';
+import type { ModelElement } from 'ckeditor5/src/engine';
 
 /**
  * Represents a command which is executed to collapse all items in an
@@ -11,7 +11,7 @@ export default class BootstrapAccordionCollapseAllCommand extends Command {
   /**
    * The selected accordion widget.
    */
-  public accordionWidget?: Element | null;
+  public accordionWidget?: ModelElement | null;
 
   /**
    * @inheritdoc
@@ -33,7 +33,7 @@ export default class BootstrapAccordionCollapseAllCommand extends Command {
     }
     this.editor.model.change(writer =>
       [...accordionItemIterator].forEach(accordionItem =>
-        setAccordionItemIsOpen(accordionItem as Element, writer, false)));
+        setAccordionItemIsOpen(accordionItem as ModelElement, writer, false)));
   }
 
 }

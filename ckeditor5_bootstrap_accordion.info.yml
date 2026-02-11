@@ -1,6 +1,6 @@
 name: CKEditor 5 Bootstrap Accordion
 type: module
 description: 'Insert and edit a Bootstrap 5 accordion in CKEditor 5.'
-core_version_requirement: ^9.5 || ^10 || ^11
+core_version_requirement: ^11.3
 dependencies:
   - drupal:ckeditor5

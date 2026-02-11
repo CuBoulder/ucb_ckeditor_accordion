@@ -1,6 +1,6 @@
 import { Command } from 'ckeditor5/src/core';
 import { getSelectedAccordionModelElement, isAccordionItemOpen, setAccordionItemIsOpen } from '../bootstrapaccordionutils';
-import type { Element } from 'ckeditor5/src/engine';
+import type { ModelElement } from 'ckeditor5/src/engine';
 
 /**
  * Represents a command which is executed to modify attributes of the accordion
@@ -11,7 +11,7 @@ export default class BootstrapAccordionFirstItemOpenCommand extends Command {
   /**
    * The selected accordion widget.
    */
-  public accordionWidget?: Element | null;
+  public accordionWidget?: ModelElement | null;
 
   /**
    * The value of this command.
@@ -27,7 +27,7 @@ export default class BootstrapAccordionFirstItemOpenCommand extends Command {
     // Disables any BootstrapAccordionFirstItemOpenCommand if there is no
     // selected accordion.
     this.isEnabled = !!this.accordionWidget;
-    this.value = this.isEnabled && isAccordionItemOpen(this.accordionWidget!.getChild(0) as Element);
+    this.value = this.isEnabled && isAccordionItemOpen(this.accordionWidget!.getChild(0) as ModelElement);
   }
 
   /**
@@ -35,7 +35,7 @@ export default class BootstrapAccordionFirstItemOpenCommand extends Command {
    */
   public override execute(options: { value: boolean } = { value: false }) {
     this.editor.model.change(writer =>
-      setAccordionItemIsOpen(this.accordionWidget!.getChild(0) as Element, writer, options.value));
+      setAccordionItemIsOpen(this.accordionWidget!.getChild(0) as ModelElement, writer, options.value));
   }
 
 }

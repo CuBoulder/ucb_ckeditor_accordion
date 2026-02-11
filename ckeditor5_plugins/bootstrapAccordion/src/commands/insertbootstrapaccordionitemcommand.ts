@@ -1,4 +1,4 @@
-import type { Element, PositionOffset } from 'ckeditor5/src/engine';
+import type { ModelElement, ModelPositionOffset } from 'ckeditor5/src/engine';
 import { Command } from 'ckeditor5/src/core';
 import { createAccordionItem, getSelectedAccordionItemModelElement, isAccordionItemOpen, setAccordionItemIsOpen } from '../bootstrapaccordionutils';
 
@@ -11,7 +11,7 @@ export default class InsertBootstrapAccordionItemCommand extends Command {
   /**
    * The currently-selected accordion item.
    */
-  protected accordionItem?: Element | null;
+  protected accordionItem?: ModelElement | null;
 
   /**
    * @inheritdoc
@@ -25,16 +25,16 @@ export default class InsertBootstrapAccordionItemCommand extends Command {
   /**
    * @inheritdoc
    */
-  public override execute(options: { value: PositionOffset }) {
+  public override execute(options: { value: ModelPositionOffset }) {
     const { commands, model } = this.editor
     const accordionItem = this.accordionItem!;
     const value = options.value;
     model.change(writer => {
       let isOpen = commands.get('bootstrapAccordionItemsStayOpen')?.value === 'true' && isAccordionItemOpen(accordionItem);
-      const accordion = accordionItem.parent as Element;
+      const accordion = accordionItem.parent as ModelElement;
       if (accordion.getChildIndex(accordionItem) === 0) {
         const secondAccordionItem = accordion.getChild(1);
-        const secondAccordionItemIsOpen = secondAccordionItem ? isAccordionItemOpen(secondAccordionItem as Element) : false;
+        const secondAccordionItemIsOpen = secondAccordionItem ? isAccordionItemOpen(secondAccordionItem as ModelElement) : false;
         if (value === 'before') {
           // An accordion item is being inserted above the first item, and the
           // "open first item" setting is on. Closes the item as it will no

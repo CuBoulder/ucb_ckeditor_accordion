@@ -1,9 +1,9 @@
 import type { PluginInterface } from '@ckeditor/ckeditor5-core/src/plugin';
 import type {
   BubblingEventInfo,
-  DocumentSelection,
-  DomEventData,
-  Element,
+  ModelDocumentSelection,
+  ModelElement,
+  ViewDocumentDomEventData,
   ViewDocumentTabEvent
 } from 'ckeditor5/src/engine';
 import type { KeystrokeInfo } from 'ckeditor5/src/utils';
@@ -31,7 +31,7 @@ export default class BootstrapAccordionKeyboard extends Plugin implements Plugin
     this.listenTo<ViewDocumentTabEvent>(
       viewDocument,
       'tab',
-      (bubblingEventInfo: BubblingEventInfo, domEventData: DomEventData & KeystrokeInfo) =>
+      (bubblingEventInfo: BubblingEventInfo, domEventData: ViewDocumentDomEventData & KeystrokeInfo) =>
         this._handleNavigation(bubblingEventInfo, domEventData, !domEventData.shiftKey),
       { context: node => node.is('element') && (node.hasClass('ckeditor5-bootstrap-accordion-button') || node.hasClass('ckeditor5-bootstrap-accordion-body')) }
     );
@@ -47,7 +47,7 @@ export default class BootstrapAccordionKeyboard extends Plugin implements Plugin
    * @param forward
    *   Whether to more forward or backward through the accordion.
    */
-  private _handleNavigation(bubblingEventInfo: BubblingEventInfo, domEventData: DomEventData, forward: boolean) {
+  private _handleNavigation(bubblingEventInfo: BubblingEventInfo, domEventData: ViewDocumentDomEventData, forward: boolean) {
     const model = this.editor.model;
     const selection = model.document.selection;
     const selectedElement = selection.getFirstPosition()?.findAncestor('bootstrapAccordionButton') || selection.getFirstPosition()?.findAncestor('bootstrapAccordionBody');
@@ -86,12 +86,12 @@ export default class BootstrapAccordionKeyboard extends Plugin implements Plugin
  *   The element to navigate to, or null if there isn't one (as in the case of
  *   the first or last accordion item being selected).
  */
-function navigate(selectedElement: Element, selection: DocumentSelection, forward: boolean): Element | null {
+function navigate(selectedElement: ModelElement, selection: ModelDocumentSelection, forward: boolean): ModelElement | null {
   const accordionItem = getSelectedAccordionItemModelElement(selection);
   if (!accordionItem) {
     return null;
   }
-  const accordion = accordionItem.parent as Element;
+  const accordion = accordionItem.parent as ModelElement;
   return forward ? getNext(accordion, accordionItem, selectedElement) : getPrevious(accordion, accordionItem, selectedElement);
 }
 
@@ -108,19 +108,19 @@ function navigate(selectedElement: Element, selection: DocumentSelection, forwar
  * @returns
  *   The previous available element, or null if there isn't one.
  */
-function getPrevious(accordion: Element, accordionItem: Element | null, selectedElement: Element | null): Element | null {
+function getPrevious(accordion: ModelElement, accordionItem: ModelElement | null, selectedElement: ModelElement | null): ModelElement | null {
   if (!accordionItem) {
     // Selection was at the start of the accordion, there isn't a previous
     // item.
     return null;
   }
   const itemChildren = [...accordionItem.getChildren()];
-  const childIndex = selectedElement ? itemChildren.indexOf(selectedElement.parent as Element) - 1 : itemChildren.length - 1;
+  const childIndex = selectedElement ? itemChildren.indexOf(selectedElement.parent as ModelElement) - 1 : itemChildren.length - 1;
   if (childIndex > -1) {
-    return (itemChildren[childIndex] as Element).getChild(0) as Element | null;
+    return (itemChildren[childIndex] as ModelElement).getChild(0) as ModelElement | null;
   } else {
     // No more elements in this accordion item, move to the previous one.
-    return getPrevious(accordion, accordion.getChild(accordion.getChildIndex(accordionItem)! - 1) as Element | null, null);
+    return getPrevious(accordion, accordion.getChild(accordion.getChildIndex(accordionItem)! - 1) as ModelElement | null, null);
   }
 }
 
@@ -137,17 +137,17 @@ function getPrevious(accordion: Element, accordionItem: Element | null, selected
  * @returns
  *   The next available element, or null if there isn't one.
  */
-function getNext(accordion: Element, accordionItem: Element | null, selectedElement: Element | null): Element | null {
+function getNext(accordion: ModelElement, accordionItem: ModelElement | null, selectedElement: ModelElement | null): ModelElement | null {
   if (!accordionItem) {
     // Selection was at the end of the accordion, there isn't a next item.
     return null;
   }
   const itemChildren = [...accordionItem.getChildren()];
-  const childIndex = selectedElement ? itemChildren.indexOf(selectedElement.parent as Element) + 1 : 0;
+  const childIndex = selectedElement ? itemChildren.indexOf(selectedElement.parent as ModelElement) + 1 : 0;
   if (childIndex < itemChildren.length) {
-    return (itemChildren[childIndex] as Element).getChild(0) as Element | null;
+    return (itemChildren[childIndex] as ModelElement).getChild(0) as ModelElement | null;
   } else {
     // No more elements in this accordion item, move to the next one.
-    return getNext(accordion, accordion.getChild(accordion.getChildIndex(accordionItem)! + 1) as Element | null, null);
+    return getNext(accordion, accordion.getChild(accordion.getChildIndex(accordionItem)! + 1) as ModelElement | null, null);
   }
 }

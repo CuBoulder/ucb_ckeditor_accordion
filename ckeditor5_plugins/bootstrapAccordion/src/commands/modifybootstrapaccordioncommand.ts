@@ -2,7 +2,7 @@ import { Command } from 'ckeditor5/src/core';
 import { getSelectedAccordionModelElement } from '../bootstrapaccordionutils';
 import type { Editor } from 'ckeditor5/src/core';
 import type { ModelAttributeDefinition } from '../bootstrapaccordiontypes';
-import type { Element } from 'ckeditor5/src/engine';
+import type { ModelElement } from 'ckeditor5/src/engine';
 
 /**
  * Represents a command which is executed to modify attributes of the accordion
@@ -28,7 +28,7 @@ export default class ModifyBootstrapAccordionCommand<T extends string, D extends
   /**
    * The selected accordion widget.
    */
-  public accordionWidget?: Element | null;
+  public accordionWidget?: ModelElement | null;
 
   /**
    * Constructs a new ModifyBootstrapAccordionCommand.

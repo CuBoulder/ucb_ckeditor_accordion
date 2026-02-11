@@ -2,9 +2,8 @@
  * @file Contains shims to avoid breaking older versions of CKEditor 5.
  */
 
-import type EditableElement from '@ckeditor/ckeditor5-engine/src/view/editableelement';
-import type View from '@ckeditor/ckeditor5-engine/src/view/view';
-import { enablePlaceholder } from 'ckeditor5/src/engine';
+import type { EditingView, ViewEditableElement } from 'ckeditor5/src/engine';
+import { enablePlaceholder, enableViewPlaceholder } from 'ckeditor5/src/engine';
 import { ViewModel, Model } from 'ckeditor5/src/ui';
 import { ckMajorVersion } from './bootstrapaccordionutils';
 
@@ -30,8 +29,8 @@ export const UiViewModel = typeof ViewModel === 'undefined' ? Model : ViewModel;
  *   library call.
  */
 export function engineEnablePlaceholder(placeholderOptions: {
-  view: View;
-  element: EditableElement;
+  view: EditingView;
+  element: ViewEditableElement;
   isDirectHost?: boolean;
   keepOnFocus?: boolean;
   text?: string;
@@ -40,5 +39,5 @@ export function engineEnablePlaceholder(placeholderOptions: {
     // Uses legacy `text` option in older versions of CKEditor 5.
     placeholderOptions.text = placeholderOptions.element.placeholder;
   }
-  enablePlaceholder(placeholderOptions);
+  (enableViewPlaceholder || enablePlaceholder)(placeholderOptions);
 }
